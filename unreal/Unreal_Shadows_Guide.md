@@ -3,6 +3,8 @@ This master reference guide covers the mechanics of Virtual Shadow Maps (VSMs) a
 ------------------------------
 ## ⚔️ Section 1: The Verdict (VSM vs. Ray Traced Shadows)
 For modern real-time development workflows using Nanite and Lumen, legacy standalone Ray Traced Shadows are largely obsolete. Keeping them enabled alongside Hardware Lumen is the primary cause of severe performance drops and self-shadowing artifacts.
+
+Using Virtual Shadow Maps (VSM) and standard Ray Traced Shadows together in Unreal Engine 5 is a major cause of severe shadow acne, as the hybrid approach causes conflicting evaluations on curved surfaces. This conflict often results in low-poly fallback meshes being used for shadows, producing significant black splotches and flickering, requiring ray-traced shadows to be disabled on lights for resolution.
 ## Why Virtual Shadow Maps (VSM) Supercede Legacy Shadows:
 
 * Native Nanite Support: VSMs read native streaming high-poly clusters perfectly. Legacy ray-traced shadows rely on a low-poly proxy "fallback mesh," which creates geometric clipping and jagged dark artifacts (shadow acne) on curved surfaces (like eyeballs or car hoods).
@@ -21,7 +23,7 @@ Car interiors and tight electronic assemblies contain microscopic gaps (dashboar
 * The Fix: Ray Traced Shadows calculate direct pixel-perfect intersections. If your configurator features extreme close-ups of the interior cockpit, enabling Ray Traced Shadows for local lights only provides superior fidelity.
 
 ## 3. Non-Nanite Alpha-Masked Subsurface Geometry (Complex Foliage)
-If your studio backdrop or environment relies heavily on complex, traditional non-Nanite geometry with alpha masks (like dense, translucent foliage or cloth ribbons), legacy Ray Tracing can compute light transmission layers cleaner than default VSM shadow map caching.
+*  If your studio backdrop or environment relies heavily on complex, traditional non-Nanite geometry with alpha masks (like dense, translucent foliage or cloth ribbons), legacy Ray Tracing can compute light transmission layers cleaner than default VSM shadow map caching.
 ------------------------------
 ## 🎛️ Section 3: Tuning VSMs to Match the Ray Tracing Look
 Out of the box, Ray Traced Shadows often look sharper and darker because they default to a harsh, pinpoint light calculation. VSMs default to realistic physics, naturally softening shadows as they travel.
