@@ -45,7 +45,7 @@ Ray Traced Shadows calculate harsh direct occlusion. VSMs naturally allow ambien
 * Post-Process Volume Color Grading: Place an unbound Post Process Volume in your level. Navigate to Color Grading > Global and slightly lower the Gamma slider, or go to Shadows and adjust the Toe value. This pulls down the low-end blacks, giving you rich contrast.
 
 ------------------------------
-## 🔍 Section 4: Shadow Troubleshooting Cheatsheet## "
+## 🔍 Section 4: Shadow Troubleshooting Cheatsheet
 
 I see weird black splotches and tiger-stripes scattered across curved surfaces like eyeballs or smooth panels when Ray Tracing is enabled."
 
