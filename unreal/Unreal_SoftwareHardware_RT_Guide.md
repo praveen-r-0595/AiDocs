@@ -91,7 +91,8 @@ Unreal Engine 5 handles these foundational structures differently based on wheth
 ------------------------------
 ## Part 4: Complete Master Configuration Matrix
 Use these curated setting combinations depending on your project's performance and hardware targets.
-## 🟢 Software Ray Tracing Profiles## A. Max Quality (Cinematic / High-End PC)
+## 🟢 Software Ray Tracing Profiles
+## A. Max Quality (Cinematic / High-End PC)
 
 * Shadow Method: Virtual Shadow Maps (VSM) — Infinite-resolution virtual shadow maps that eliminate all jagged shadow edges.
 * Software Ray Tracing Mode: Detail Tracing — Traces individual high-res mesh fields up close for sharp contact shadows [Lumen Technical Details in Unreal Engine].
@@ -116,7 +117,8 @@ Use these curated setting combinations depending on your project's performance a
 * Lumen Scene View Distance: Reduce to 5000 or 10000 (50–100 meters) to stop distant background cache calculations.
 
 ------------------------------
-## 🔵 Hardware Ray Tracing Profiles## A. Max Quality (Next-Gen Absolute Best Visuals)
+## 🔵 Hardware Ray Tracing Profiles
+## A. Max Quality (Next-Gen Absolute Best Visuals)
 
 * Shadow Method: Virtual Shadow Maps (VSM) — Delivers highly realistic shadow penumbras that naturally soften over distance.
 * Ray Tracing Quality: High — Forces hardware rays to trace against full, uncompressed Nanite detail geometry.

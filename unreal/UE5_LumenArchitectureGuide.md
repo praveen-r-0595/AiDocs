@@ -1,13 +1,17 @@
 ## 🏛️ The Unreal Engine 5 Lumen Architecture Reference Manual
+
 Lumen utilizes a hybrid ray-tracing pipeline. It decouples how rays are tracked through space from how lighting is calculated at the intersection point. To achieve real-time frame rates, Lumen pre-calculates scene lighting into a 2D data structure called the Lumen Surface Cache, which rays sample upon impact.
+
 ------------------------------
 ## 💻 Technical Document 1: Software Ray Tracing Pipeline
 Software Lumen does not look at actual polygons or triangles. Instead, it converts your scene into three layers of performance-optimized approximations.
 
 [Ray Fired] ---> [Screen Space Tracing] (First 2 meters)
 
-                      | ---> (Miss?) ---> [Mesh Distance Fields] (Up to 2 meters)
-                                                | ---> (Miss?) ---> [Global Distance Fields] (Beyond 2 meters)
+                      | ---> (Miss?) ---> [Mesh Distance Fields] (Up to 2 meters) [DETAIL TRACING MODE]
+                                                | ---> (Miss?) ---> [Global Distance Fields] (Beyond 2 meters) [GLOBAL TRACING MODE]
+
+Software Lumen offers two primary tracing quality modes that balance visual fidelity against GPU performance:
 
 ## 1. Screen Space Tracing (Screen Traces)
 
@@ -15,17 +19,23 @@ Software Lumen does not look at actual polygons or triangles. Instead, it conver
 * Range: First 0 to 2 meters of the ray's path.
 * The Blueprint Limitation: It can only track what is actively visible on your screen. If an object moves behind your camera or behind a wall, its screen-space information disappears, causing lighting to pop or vanish.
 
-## 2. Mesh Distance Fields (MDF)
+## 2. Detail Tracing Mode: Mesh Distance Fields (MDF)
 
 * How it works: If a screen trace misses or goes behind an object, Lumen switches to tracing against Mesh Distance Fields. The engine simplifies every static mesh into an invisible, low-resolution 3D cloud of voxels. It uses Signed Distance Field (SDF) math, calculating positive values for empty air and negative values for solid mass.
 * Range: Used for localized detail within 2 meters of any object.
 * Lighting Calculation: When a ray hits an MDF voxel, it looks up the pre-calculated lighting stored on that object's Surface Cache Card (described below).
+* Quality Profile: Higher quality, more detailed shadows and reflections; captures fine geometric features and small mesh details.
+* Performance Profile: Moderate GPU cost; per-object MDF generation adds memory overhead.
+* Use Case: Close-range reflections, detailed shadow transitions, and near-field indirect lighting where visual precision is critical.
 
-## 3. Global Distance Fields (GDF)
+## 3. Global Tracing Mode: Global Distance Fields (GDF)
 
 * How it works: For long-range tracking, tracing individual MDFs becomes too expensive. The engine merges all individual MDFs into a single, low-resolution global voxel clipmap wrapped around the camera.
 * Range: Tracks rays from 2 meters out to the horizon (clipmap limits).
 * Lighting Calculation: Samples a highly aggregated, low-resolution version of the global Surface Cache.
+* Quality Profile: Lower visual precision; voxels are coarser and blend distant details together. Shadows and reflections become progressively softer and more approximate at distance.
+* Performance Profile: Exceptionally cheap; single global voxel grid shared across entire scene eliminates per-object overhead.
+* Use Case: Far-field ambient occlusion, long-range bounced light, sky reflections, and performance-critical scenes where distant precision is less noticeable.
 
 ## 🗃️ The Data Hub: Lumen Surface Cache (Cards)
 
@@ -62,14 +72,16 @@ However, you can configure how it evaluates lighting when a ray hits a triangle 
 ------------------------------
 ## 📝 Technical Comparison Matrix
 
-| Lighting Element | Software Ray Tracing | Hardware: Surface Cache Mode | Hardware: Hit Lighting Mode |
-|---|---|---|---|
-| Ray Tracking Method | Distance Fields (MDF/GDF) & Screen Traces | GPU RT Cores / BVH Tree | GPU RT Cores / BVH Tree |
-| Geometry Evaluated | Voxel Volumes (No Triangles) | Nanite Fallback Mesh (Low-Poly Proxy) | Native Nanite Triangles (Full Mesh via Mode 1) |
-| Shading At Ray Impact | 2D Surface Cache Card Lookup | 2D Surface Cache Card Lookup | Full Material Shader Evaluation |
-| Handling of Thin Planes | Destabilizes math; requires resolution scaling or 10cm physical volume. | Handles shapes perfectly; requires material-level Two-Sided tags. | Handles shapes perfectly; requires material-level Two-Sided tags. |
-| Reflection Quality | Blurry/Approximated voxels; prone to leaking. | Sharp, clean, mirror-like geometric reflections. | Pristine, physically perfect clear-coats & refractions. |
-| GPU Hardware Overhead | Exceptionally Low (Runs on non-RT cards) | Moderate (Optimized console standard) | Extremely High (Workstation/Cinematic standard) |
+| Lighting Element | Software Detail Tracing (MDF) | Software Global Tracing (GDF) | Hardware: Surface Cache Mode | Hardware: Hit Lighting Mode |
+|---|---|---|---|---|
+| Ray Tracking Method | Mesh Distance Fields (Per-Object) | Global Distance Fields (Shared) | GPU RT Cores / BVH Tree | GPU RT Cores / BVH Tree |
+| Geometry Evaluated | Individual Voxel Clouds | Unified Global Voxel Clipmap | Nanite Fallback Mesh (Low-Poly Proxy) | Native Nanite Triangles (Full Mesh via Mode 1) |
+| Shading At Ray Impact | 2D Surface Cache Card Lookup | 2D Surface Cache Card Lookup (Low-Res) | 2D Surface Cache Card Lookup | Full Material Shader Evaluation |
+| Handling of Thin Planes | Destabilizes math; requires resolution scaling or 10cm physical volume. | Destabilizes math; coarser voxels hide some issues | Handles shapes perfectly; requires material-level Two-Sided tags. | Handles shapes perfectly; requires material-level Two-Sided tags. |
+| Reflection Quality | Sharp, detailed reflections (2m range) | Blurry, aggregate reflections (2m+) | Sharp, clean, mirror-like geometric reflections. | Pristine, physically perfect clear-coats & refractions. |
+| GPU Hardware Overhead | Moderate (Per-object MDF memory) | Exceptionally Low (Single global grid) | Moderate (Optimized console standard) | Extremely High (Workstation/Cinematic standard) |
+| Distance Range | 0–2 meters (detail zone) | 2 meters to horizon (far field) | Full scene | Full scene |
+| Best Use Case | Close-range ambient occlusion, character shadows, fine details | Far-field bounce light, performance optimization, skylight integration | Balanced reflection detail + performance | Cinematic reflections, material accuracy, offline renders |
 
 ------------------------------
 This breakdown should clarify how Lumen handles these systems under the hood. For your Pixel Streaming car configurator powered by the RTX A5000, your selected hybrid setting (Hardware Surface Cache/Hit Lighting for Reflections + Virtual Shadow Maps for Shadows) uses the right combination: you harness physical RT cores for flawless metallic clear-coats while completely dodging the performance cost of ray-traced shadow maps.

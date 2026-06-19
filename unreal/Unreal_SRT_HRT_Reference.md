@@ -1,9 +1,7 @@
-Here is the absolute complete, fully defined, master reference guide covering everything we have discussed. Every single core term is accompanied by its official definition, its role, how it impacts your game, and the precise default vs quality values. [1, 2] 
-You can copy and save this entire markdown text for your future learning and production reference.
-------------------------------
 ## The Ultimate Unreal Engine 5 Distance Fields & Lumen Master Reference
-------------------------------
-## 📖 Module 1: Complete Technical Dictionary## 1. Individual Distance Fields (Mesh Distance Fields / MDFs)
+
+## 📖 Module 1: Complete Technical Dictionary
+## 1. Individual Distance Fields (Mesh Distance Fields / MDFs)
 
 * Definition: A per-mesh volumetric texture asset generated in the background for Static Meshes. It represents the object as a 3D grid of points (Signed Distance Fields), where each point calculates its absolute distance to the closest geometric triangle of that mesh. [3] 
 * Primary Job: Powers local-range ray intersections within the first 2 meters of a ray’s path in Software Lumen, creates highly accurate localized contact shadows, and calculates proximity values for custom material shaders (e.g., dynamic shoreline foam or intersection shields). [2] 
@@ -140,7 +138,8 @@ Follow this exact sequence to lock in the ultimate high-end Software Ray Tracing
 
 
 ------------------------------
-## Part 8: The Final Hidden Mechanics## 1. The Async Compute Shader Bottleneck (The Start-up Trap)
+## Part 8: The Final Hidden Mechanics
+## 1. The Async Compute Shader Bottleneck (The Start-up Trap)
 When you enable Virtual Shadow Maps and Mesh Distance Fields, Unreal Engine heavily utilizes your GPU’s Async Compute pipelines to calculate shadows and voxels parallel to the main rendering path.
 
 * The Trap: If you develop on an older laptop or target past-gen hardware that does not support Async Compute efficiently, enabling high-quality distance fields will lock up your editor or cause massive frame stuttering.
@@ -174,4 +173,4 @@ Before you import a single asset into your new project, open your Project Settin
    
 <br>
 
-In Hardware Ray Tracing, Individual Mesh Distance Fields are completely ignored for lighting and reflections because physical RT cores trace actual polygon triangles instead [Lumen Technical Details in Unreal Engine]. They only look at the Surface Cache to get color when a ray hits [Lumen Technical Details in Unreal Engine].However, the Global Distance Field is still used for lighting in Hardware mode—specifically for the Far Field (the background) [Lumen Technical Details in Unreal Engine].
+In Hardware Ray Tracing, Individual Mesh Distance Fields are completely ignored for lighting and reflections because physical RT cores trace actual polygon triangles instead. They only look at the Surface Cache to get color when a ray hits [Lumen Technical Details in Unreal Engine].However, the Global Distance Field is still used for lighting in Hardware mode—specifically for the Far Field (the background).

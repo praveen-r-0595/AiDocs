@@ -1,4 +1,5 @@
 ## Unreal Engine 5: Thin Geometry Lighting & Nanite Workflow Guide
+
 This document outlines the correct settings for handling thin geometry (such as modular walls and automotive panels) using Software Lumen and Nanite, preventing common artifacts like black splotches and blinding light leaks.
 ------------------------------
 ## 🚨 The Ultimate Solution: "Two-Sided" Material Toggle

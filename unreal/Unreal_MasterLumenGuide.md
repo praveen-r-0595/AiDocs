@@ -1,6 +1,7 @@
 ## 🏛️ The Definitive Unreal Engine 5 Geometry, Lighting, and Shadow Production Master Guide
 
-## 🛑 Section 1: The Core Foundational Rules## 1. The Single-Plane Constraint & The "Two-Sided" Material Paradigm
+## 🛑 Section 1: The Core Foundational Rules
+## 1. The Single-Plane Constraint & The "Two-Sided" Material Paradigm
 When working with thin, zero-thickness, single-plane geometry (such as architectural modular sheets, thin structural layouts, or raw automotive CAD data), the rendering engine cannot natively calculate standard boundary volumes.
 
 * The Primary Solution: Open the material assigned to the asset, locate the Details panel, and enable Two Sided.
@@ -17,7 +18,8 @@ For all structural, environment-building, and modular architecture workflows, ne
    * Material Separation: Multi-sided volumes allow the assignment of distinct material IDs—allowing interior faces to render localized materials (e.g., drywall, interior paint, car trim) while exterior faces handle secondary properties (e.g., brick, sheet metal, structural siding).
 
 ------------------------------
-## 🚨 Section 2: Deconstructing Engine Traps and Fallacies## 1. The Core Trap: "Two-Sided Distance Field" Mesh Setting
+## 🚨 Section 2: Deconstructing Engine Traps and Fallacies
+## 1. The Core Trap: "Two-Sided Distance Field" Mesh Setting
 Never enable "Two-Sided Distance Field" generation inside the Static Mesh Editor for solid structural or industrial assets, regardless of how thin they are.
 
 * The False Assumption: Expecting this toggle to make a thin surface behave as a solid light blocker or to compute double-sided distance field shadows.
@@ -90,7 +92,8 @@ Tight interior components (buttons, levers, console dials, AC vents) can generat
 ------------------------------
 ## 🔍 Section 5: The Master Troubleshooting and Light Leak Guide## Defining Light Leaking
 Light leaking (or light bleeding) is a rendering failure where light energy cleanly penetrates a solid asset boundary or structural seam, brightly lighting an area that should remain entirely dark. In Unreal Engine 5, this is rarely due to a physical opening in the 3D model. It is almost always a calculation failure caused by geometry that is thinner than the lighting voxels, inverted surface normals, or low-resolution distance field maps.
-## Comprehensive Troubleshooting Matrix## 🚨 Symptom: "I see weird black splotches and tiger-stripes scattered across curved surfaces like eyeballs or smooth panels when Ray Tracing is enabled."
+## Comprehensive Troubleshooting Matrix
+## 🚨 Symptom: "I see weird black splotches and tiger-stripes scattered across curved surfaces like eyeballs or smooth panels when Ray Tracing is enabled."
 
 * The Underlying Cause: A severe mathematical mismatch between your high-resolution Nanite visual mesh and the engine's automatically generated, low-resolution Fallback Mesh (shadow proxy mesh) [r.RayTracing.Nanite.Mode 0]. The ray tracer shoots shadows at the jagged fallback proxy instead of your actual geometry [r.RayTracing.Nanite.Mode 0]. The shadow rays collide with these jagged proxy edges, casting self-shadowing splotches onto your visual mesh [r.RayTracing.Nanite.Mode 0].
 * The Permanent Asset-Level Fix (Highly Optimized): Revert any heavy global overrides back to default r.RayTracing.Nanite.Mode 0 [r.RayTracing.Nanite.Mode 0]. Open the breaking asset inside the Static Mesh Editor. Find the Nanite Settings in the Details block. Change Fallback Target from Auto to Percent Triangles. Set the Fallback Triangle Percent to 100 and click Apply Changes. This forces the shadow system to evaluate a perfectly smooth fallback proxy mesh for this specific asset, restoring your frame rate globally while permanently cleaning up the surface artifacts.
