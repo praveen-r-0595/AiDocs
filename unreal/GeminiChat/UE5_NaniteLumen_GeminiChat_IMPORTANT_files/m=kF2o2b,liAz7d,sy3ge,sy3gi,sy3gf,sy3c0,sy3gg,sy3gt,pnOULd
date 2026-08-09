@@ -1,0 +1,26 @@
+loaded_h_0(function(_){var window=this;
+_.v("kF2o2b");
+_.dg(_.d0a,class extends _.po{constructor(){super();this.Aa=new Set;this.Ca=new Set;this.oa=new Set}updateSrpSuggestionGroup(a,b){for(let c of this.Aa)c.L5d(a,b);this.Ba()}Ba(){for(let a of this.Ca)a.M5d()}updateMagiStateParams(a){for(let b of this.oa)b.K5d(a)}kxd(a){this.Aa.add(a)}lxd(a){this.Ca.add(a)}jxd(a){this.oa.add(a)}});
+_.x();
+_.v("liAz7d");
+_.z5A=new _.Yf(_.e0a);
+_.x();
+_.mwh=!!(_.Fi[85]&128);_.nwh=!!(_.Fi[85]&256);_.owh=!!(_.Fi[85]&512);_.pwh=!!(_.Fi[85]&1024);_.qwh=!!(_.Fi[85]&2048);_.rwh=!!(_.Fi[85]&4096);_.swh=!!(_.Fi[85]&8192);_.twh=!!(_.Fi[85]>>14&1);_.uwh=!!(_.Fi[85]>>15&1);_.vwh=!!(_.Fi[85]>>16&1);_.wwh=!!(_.Fi[85]>>19&1);
+_.Awh={hte:"appbar",jFe:"ee",GWe:"mode",yJe:"fb",c3e:"rhs",rSe:"lhs",X6e:"sge",Pte:"atvcap",Z5e:"stb",t6e:"dark",Pdf:"uib",TZe:"osrp_st_tabs",ECe:"dthm",DUe:"mgq",HBe:"ctor",acf:"taw",Cye:"cq",hpd:"emb",IFe:"emb_cb",hGe:"emb_ib",cPe:"imlt",W_e:"pff_map",Lse:"aic",J$e:"ssp",zSe:"lb"};_.Bwh=Object.values(_.Awh);
+_.xwh=function(){return _.xm("center_col")};
+var N9g,L9g,M9g;
+_.O9g=function(){var a=_.Pi?_.wm("center_col"):_.wm("rcnt");if(a===null)return[];var b=new Set;for(var c of L9g){var d=Array.prototype.slice.call(a.querySelectorAll(c[0]),0);for(var e of d)if(c.length===2&&c[1]==="PARENT")d=e.parentElement,d!==null&&b.add(d);else if(c.length===2&&c[1]==="DESCENDANTS"){if(d=e.childNodes,d!==null)for(var f of d)b.add(f)}else b.add(e)}a=Array.from(b);b=[];for(c=0;c<a.length;c++){if(!(a[c]instanceof HTMLElement))continue;e=a[c];f=!0;d=e.getBoundingClientRect();if(e.offsetParent===
+null||d.width===0||d.height===0)f=!1;if(f)for(d=0;d<a.length;d++)if(c!==d&&_.Sg(a[d],e)){f=!1;break}if(f)for(let g of M9g){if(g.length===2&&g[1]==="ANCESTORS")e.querySelector(g[0])!==null&&(f=!1);else if(g.length===2&&g[1]==="DESCENDANTS")for(d=e.parentElement;d;){if(d.matches(g[0])){f=!1;break}d=d.parentElement}else if(g.length===2&&g[1]==="PARENT"){if(d=e.childNodes,d!==null)for(let h of d)if(h.matches(g[0])){f=!1;break}}else if(e.matches(g[0])){f=!1;break}if(!f)break}f&&b.push(e)}return N9g(b)};
+N9g=function(a){var b=[..._.ym("*")];return a.sort((c,d)=>b.indexOf(c)-b.indexOf(d))};
+L9g=[["#rso > div:not(.ULSxyf):not([jsname='TlEBqd']):not(.MjjYud):not(.hlcw0c)[class]"],["#rso div.ULSxyf:not(:only-of-type):not(:last-of-type)"],["#rso div.MjjYud:not(:only-of-type):not(:last-of-type):not(:has(div.grvXqb))"],["#rso div.hlcw0c:not(:only-of-type):not(:last-of-type)"],["#rso div.ULSxyf:not(:only-of-type):last-of-type:not(:nth-of-type(2))"],["#rso div.MjjYud:not(:only-of-type):last-of-type:not(:nth-of-type(2)):not(:has(div.grvXqb))"],["#rso div.hlcw0c:not(:only-of-type):last-of-type:not(:nth-of-type(2))"],
+["#bres"],["[jsname='xQjRM']"],[".g-blk"],["[jsname='GDPwke'] div.MjjYud"],[".e6hL7d","DESCENDANTS"],[".kkCXT"],[".cu-container"],["#tvcap"],["#bottomads"],["[jsname='Ypkwb']"],[".yCYahc"]];M9g=[];
+_.ywh=function(){return _.MIa("rcnt")};_.zwh=function(){return _.ywh()||_.xwh()};
+var jyh,hyh;_.iyh=function(){return document.querySelector("[jsname=xcvsnc]")?document.querySelector("[jsname=xcvsnc]"):_.S8a?document.querySelector("[data-st-tgt=fb"):_.wm(hyh)};_.kyh=function(a,b){var c=_.iyh();c?jyh(c,a,b):_.ywh()&&_.Ka(_.Am("rfiSsc"),d=>{jyh(d,a,b,!0)})};
+jyh=function(a,b,c,d=!1){a=_.ym("A",a);for(let f of a){if(d&&(f.classList.contains("zItAnd")&&!f.classList.contains("FOU1zf")||f.classList.contains("nPDzT")&&!f.classList.contains("LatpMc")))break;if(a=f.getAttribute("href"))if(a.startsWith("/url")&&b==="q"){var e=_.gd(a,"q");if(!e)continue;e=_.hd(e,b,c);f.setAttribute("href",_.hd(a,"q",e))}else f.setAttribute("href",_.hd(a,b,c))}};hyh=_.ywh()?"pTwnEc":"hdtb-sc";
+_.v("pnOULd");
+_.dg(_.f0a,class extends _.po{static Sa(){return{service:{navigation:_.vz,e4b:_.z5A}}}constructor(a){super();this.Yb=a.service.navigation;this.e4b=a.service.e4b}updateLinks(a){_.kyh("q",a)}navigateTo(a,b=!1){this.Yb.navigateTo(a,b)}hideMobileModeSelector(){if(!_.ywh()){var a=_.iyh();a&&(a.style.display="none")}}showMobileModeSelector(){if(!_.ywh()){var a=_.iyh();a&&(a.style.display="")}}updateSrpSuggestionGroup(a,b){this.e4b.updateSrpSuggestionGroup(a,b)}updateMagiStateParams(a){this.e4b.updateMagiStateParams({zEa:a})}fetch(a,
+b){return _.uKc(a,{urlParams:b})}});
+
+_.x();
+});
+// Google Inc.
