@@ -1,6 +1,5 @@
-## The Ultimate Unreal Engine 5 Distance Fields & Lumen Reference Guide
-This document serves as a complete, comprehensive learning guide and master reference for Unreal Engine 5's distance field systems, shadow methods, and Lumen global illumination pipelines.
-------------------------------
+# The Ultimate Unreal Engine 5 Distance Fields & Lumen Reference Guide
+
 ## Part 1: Distance Fields (Where Things Are)
 Distance Fields are volumetric, 3D representations of your scene's geometry. They do not store polygons; instead, they store Signed Distance Field (SDF) data—a grid of points where each point knows its distance to the closest surface of a mesh. They act as the "invisible roadmap" that light rays travel through.
 ## 1. Individual Distance Fields (Mesh Distance Fields / MDFs)
